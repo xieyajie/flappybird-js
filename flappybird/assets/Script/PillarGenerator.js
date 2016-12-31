@@ -22,6 +22,11 @@ cc.Class({
             default: 0,
             tooltip: "上下障碍物的中间空隙间距",
         },
+
+        pillarMinHeight: {
+            default: 0,
+            tooltip: "上下预留给障碍物的最小高度",
+        },
     },
 
     // use this for initialization
@@ -36,7 +41,9 @@ cc.Class({
 
     generateTwoPillar: function () {
         // 障碍物间隙中心位置上下
-        let spaceCenterY = Math.random() * this.node.height - this.node.height/2;
+        // 这里已经照顾到了上下障碍物都有个最小高度
+        let effectHeight = this.node.height - this.pillarMinHeight * 2 - this.pillarSapce;
+        let spaceCenterY = Math.random() * effectHeight - effectHeight / 2;
 
         // 上边的柱子障碍物
         let upPillar = cc.instantiate(this.pillarPrefab);
