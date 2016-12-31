@@ -192,7 +192,11 @@
       "__uuid__": "6e9490bf-8193-40c5-ae11-928ab8b9278c"
     },
     "pillarSapce": 100,
-    "pillarMinHeight": 60
+    "pillarMinHeight": 60,
+    "pillarMoveSpeed": 500,
+    "pillarGenerateMargin": 400,
+    "pillars": [],
+    "lastPillarGenerateMargin": 0
   },
   {
     "__type__": "cc.Canvas",
