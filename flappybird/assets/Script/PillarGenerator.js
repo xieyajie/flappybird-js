@@ -27,17 +27,36 @@ cc.Class({
             default: 0,
             tooltip: "上下预留给障碍物的最小高度",
         },
+
+        pillarMoveSpeed: {
+            default: 0,
+            tooltip: "障碍物的移动速度",
+        },
+
+        pillars: {
+            default: [],
+            tooltip: "记录所有障碍物的数组",
+        }
     },
 
     // use this for initialization
     onLoad: function () {
-        this.generateTwoPillar();
+        let pillarArr = this.generateTwoPillar();
+
+        this.pillars.push(pillarArr);
     },
 
     // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
+    update: function (dt) {
+        for (let i = 0; i < this.pillars.length; i++) {
+            let pillarArr = this.pillars[i];
+            let upPillar = pillarArr[0];
+            let downPillar = pillarArr[1];
 
-    // },
+            upPillar.x -= dt * this.pillarMoveSpeed;
+            downPillar.x -= dt * this.pillarMoveSpeed;
+        }
+    },
 
     generateTwoPillar: function () {
         // 障碍物间隙中心位置上下
@@ -69,5 +88,7 @@ cc.Class({
         // 设置下边障碍物的位置大小
         downPillar.height = downPillarHeight;
         downPillar.setPositionY(downPillarUpY - downPillarHeight / 2);
+
+        return [upPillar, downPillar];
     },
 });
