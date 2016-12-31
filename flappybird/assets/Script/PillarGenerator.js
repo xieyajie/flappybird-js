@@ -81,7 +81,19 @@ cc.Class({
             this.lastPillarGenerateMargin = 0;
         }
 
-        // TODO: 下边要有离开屏幕的障碍物的清理
+        // 离开屏幕的障碍物的清理
+        for (let i = 0; i < this.pillars.length; i++) {
+            let pillarArr = this.pillars[i];
+            let upPillar = pillarArr[0];
+            let downPillar = pillarArr[1];
+
+            let minX = -this.node.width / 2 - upPillar.width / 2;
+            if (upPillar.x < minX) {
+                this.pillars.shift();
+                upPillar.removeFromParent();
+                downPillar.removeFromParent();
+            }
+        }
     },
 
     /**
