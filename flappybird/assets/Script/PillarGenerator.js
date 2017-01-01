@@ -53,7 +53,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        this.generateTwoPillar();
+        this.setupPillars();
     },
 
     // called every frame, uncomment this function to activate update callback
@@ -77,7 +77,8 @@ cc.Class({
         // 检查是否需要生成新的障碍物
         if (this.lastPillarGenerateMargin >= this.pillarGenerateMargin) {
             // TODO：这里会有误差的应该
-            this.generateTwoPillar();
+            let x = this.node.width / 2 + this.pillars[0][0].width / 2;
+            this.generateTwoPillar(x);
             this.lastPillarGenerateMargin = 0;
         }
 
@@ -97,9 +98,26 @@ cc.Class({
     },
 
     /**
-     * 生成一对新的障碍物
+     * 生成初始的障碍物
      */
-    generateTwoPillar: function () {
+    setupPillars: function () {
+        let tmpPillar = cc.instantiate(this.pillarPrefab);
+        // 最大可生成的位置
+        let maxX = this.node.width / 2 + tmpPillar.width / 2;
+        // 记录下最后一次生成位置的下一个位置
+        let x = 0;
+        for (x = 0; x <= maxX; x+=this.pillarGenerateMargin) {
+            this.generateTwoPillar(x);
+        }
+        // 距离上一个生成位置已经间隔了多远
+        this.lastPillarGenerateMargin = maxX - (x - this.pillarGenerateMargin);
+    },
+
+    /**
+     * 生成一对新的障碍物
+     * @param x 障碍物生成的水平位置
+     */
+    generateTwoPillar: function (x) {
         // 障碍物间隙中心位置上下
         // 这里已经照顾到了上下障碍物都有个最小高度
         let effectHeight = this.node.height - this.pillarMinHeight * 2 - this.pillarSapce;
@@ -116,7 +134,7 @@ cc.Class({
         // 设置上边障碍物的位置大小
         upPillar.height = upPillarHeight;
         upPillar.setPositionY(upPillarDownY + upPillarHeight / 2);
-        upPillar.setPositionX(this.node.width / 2 + upPillar.width / 2);
+        upPillar.setPositionX(x);
 
         // 下边的柱子障碍物
         let downPillar = cc.instantiate(this.pillarPrefab);
@@ -130,7 +148,7 @@ cc.Class({
         // 设置下边障碍物的位置大小
         downPillar.height = downPillarHeight;
         downPillar.setPositionY(downPillarUpY - downPillarHeight / 2);
-        downPillar.setPositionX(this.node.width / 2 + downPillar.width / 2);
+        downPillar.setPositionX(x);
 
         // 放到障碍物数组中
         this.pillars.push([upPillar, downPillar]);
