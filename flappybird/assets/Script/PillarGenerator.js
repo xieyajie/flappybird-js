@@ -48,12 +48,23 @@ cc.Class({
             default: 0,
             visible: false,
             tooltip: "距离上一次生成障碍物间隔了多远了",
-        }
+        },
+
+        birdPrefab: {
+            default: null,
+            type: cc.Prefab,
+            tooltip: "小鸟的 Prefab",
+        },
+
+        bird: {
+            default: null,
+        },
     },
 
     // use this for initialization
     onLoad: function () {
         this.setupPillars();
+        this.setupBird();
     },
 
     // called every frame, uncomment this function to activate update callback
@@ -153,4 +164,19 @@ cc.Class({
         // 放到障碍物数组中
         this.pillars.push([upPillar, downPillar]);
     },
+
+    /**
+     * 生成初始的小鸟
+     */
+    setupBird: function () {
+        this.bird = cc.instantiate(this.birdPrefab);
+        // 初始化位置(x始终不变)
+        //x不变
+        let x = -200;
+        let y = 0;
+        this.bird.setPositionX(x);
+        this.bird.setPositionY(y);
+        this.node.addChild(this.bird);
+    },
+
 });

@@ -248,7 +248,11 @@
     "pillarMoveSpeed": 200,
     "pillarGenerateMargin": 400,
     "pillars": [],
-    "lastPillarGenerateMargin": 0
+    "lastPillarGenerateMargin": 0,
+    "birdPrefab": {
+      "__uuid__": "4c90b8f8-3c33-4fae-aaed-34aca5d20a6d"
+    },
+    "bird": null
   },
   {
     "__type__": "cc.Canvas",
