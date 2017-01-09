@@ -241,7 +241,7 @@
     },
     "_enabled": true,
     "pillarPrefab": {
-      "__uuid__": "6e9490bf-8193-40c5-ae11-928ab8b9278c"
+      "__uuid__": "867193ed-2d95-4f4e-80ad-a1b0e52c9c5a"
     },
     "pillarSapce": 100,
     "pillarMinHeight": 60,
@@ -250,9 +250,11 @@
     "pillars": [],
     "lastPillarGenerateMargin": 0,
     "birdPrefab": {
-      "__uuid__": "4c90b8f8-3c33-4fae-aaed-34aca5d20a6d"
+      "__uuid__": "d6cea7ef-7c5b-43be-8e4b-25e7e7cc465a"
     },
-    "bird": null
+    "bird": null,
+    "birdSpeed": 200,
+    "birdGravitationalAcceleration": 250
   },
   {
     "__type__": "cc.Canvas",

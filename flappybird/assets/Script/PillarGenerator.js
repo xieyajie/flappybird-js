@@ -59,12 +59,24 @@ cc.Class({
         bird: {
             default: null,
         },
+
+        birdSpeed: {
+            default: 0,
+            tooltip: "点击屏幕鸟上升距离",
+        },
+
+        birdGravitationalAcceleration: {
+            default: 250,
+            tooltip: "鸟下降的重力加速度",
+        }
     },
 
     // use this for initialization
     onLoad: function () {
-        this.setupPillars();
+        this.setupEventListener();
+        this.setupCollisionListener();
         this.setupBird();
+        this.setupPillars();
     },
 
     // called every frame, uncomment this function to activate update callback
@@ -106,6 +118,12 @@ cc.Class({
                 downPillar.removeFromParent();
             }
         }
+
+        //鸟的当前速度
+        this.birdSpeed = this.birdSpeed - this.birdGravitationalAcceleration * dt;
+        let birdUpHeight = dt * this.birdSpeed;
+        let birdY = this.bird.getPositionY() + birdUpHeight;
+        this.bird.setPositionY(birdY);
     },
 
     /**
@@ -177,6 +195,35 @@ cc.Class({
         this.bird.setPositionX(x);
         this.bird.setPositionY(y);
         this.node.addChild(this.bird);
+    },
+
+    /**
+     * 初始化系统事件监听
+     */
+    setupEventListener: function () {
+        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            this.birdSpeed = 200;
+            console.log("mouse down");
+        }, this);
+    },
+
+    /**
+     * 初始化碰撞检测
+     */
+    setupCollisionListener: function () {
+        var manager = cc.director.getCollisionManager();
+        manager.enabled = true;
+        manager.enabledDrawBoundingBox = true;
+        manager.enabledDebugDraw = true;
+    },
+
+    /**
+     * 当碰撞产生的时候调用
+     * @param  {Collider} other 产生碰撞的另一个碰撞组件
+     * @param  {Collider} self  产生碰撞的自身的碰撞组件
+     */
+    onCollisionEnter: function (other, self) {
+        console.log('end');
     },
 
 });

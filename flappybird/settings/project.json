@@ -1,12 +1,26 @@
 {
   "collision-matrix": [
     [
-      true
+      false,
+      true,
+      false
+    ],
+    [
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false
     ]
   ],
   "excluded-modules": [],
   "group-list": [
-    "default"
+    "Pillar",
+    "Bird",
+    "New Group"
   ],
   "start-scene": "current"
 }
