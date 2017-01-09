@@ -151,44 +151,63 @@ cc.Class({
     },
 
     /**
-     * 生成一对新的障碍物
+     * 生成一对新的障碍物并自动加入到场景中
      * @param x 障碍物生成的水平位置
      */
     generateTwoPillar: function (x) {
+        // 障碍物的宽度
+        let width = cc.instantiate(this.pillarPrefab).width;
+
         // 障碍物间隙中心位置上下
         // 这里已经照顾到了上下障碍物都有个最小高度
         let effectHeight = this.node.height - this.pillarMinHeight * 2 - this.pillarSapce;
         let spaceCenterY = Math.random() * effectHeight - effectHeight / 2;
 
-        // 上边的柱子障碍物
-        let upPillar = cc.instantiate(this.pillarPrefab);
-        this.node.addChild(upPillar);
-
-        // 上边障碍物的下边缘位置
+         // 上边障碍物的下边缘位置
         let upPillarDownY = spaceCenterY + this.pillarSapce / 2;
         // 上边障碍物的高度
         let upPillarHeight = this.node.height / 2 - upPillarDownY;
-        // 设置上边障碍物的位置大小
-        upPillar.height = upPillarHeight;
-        upPillar.setPositionY(upPillarDownY + upPillarHeight / 2);
-        upPillar.setPositionX(x);
-
-        // 下边的柱子障碍物
-        let downPillar = cc.instantiate(this.pillarPrefab);
-        downPillar.rotation = 180;
-        this.node.addChild(downPillar);
+        // 上边障碍物的 Y
+        let upY = upPillarDownY + upPillarHeight / 2;
+        // 生成上边的障碍物
+        let upPillar = this.generateAPillar(x, upY, width, upPillarHeight, 0);
 
         // 下边障碍物的上边缘位置
         let downPillarUpY = spaceCenterY - this.pillarSapce / 2;
         // 下边障碍物的高度
         let downPillarHeight = this.node.height / 2 + upPillarDownY;
+        // 下边障碍物的 Y
+        let downY = downPillarUpY - downPillarHeight / 2;
         // 设置下边障碍物的位置大小
-        downPillar.height = downPillarHeight;
-        downPillar.setPositionY(downPillarUpY - downPillarHeight / 2);
-        downPillar.setPositionX(x);
+        let downPillar = this.generateAPillar(x, downY, width, downPillarHeight, 180);
 
         // 放到障碍物数组中
         this.pillars.push([upPillar, downPillar]);
+    },
+
+    /**
+     * 生成一个新的障碍物并自动加入到场景中
+     */
+    generateAPillar: function (x, y, width, height, rotation) {
+        // 生成障碍物实例
+        let pillar = cc.instantiate(this.pillarPrefab);
+        this.node.addChild(pillar);
+
+        // 设置障碍物的旋转
+        pillar.rotation = rotation;
+        // 设置障碍物的位置大小
+        pillar.width = width;
+        pillar.height = height;
+        pillar.setPositionX(x);
+        pillar.setPositionY(y);
+        // 设置碰撞体的位置大小
+        let collider = pillar.getComponent(cc.BoxCollider);
+        collider.size.width = pillar.width;
+        collider.size.height = pillar.height;
+        collider.offset.x = 0;
+        collider.offset.y = 0;
+
+        return pillar;
     },
 
     /**
