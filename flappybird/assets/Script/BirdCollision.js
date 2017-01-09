@@ -23,6 +23,6 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter: function (other, self) {
-        console.log('end');
+        this.node.dispatchEvent( new cc.Event.EventCustom('collided', true) );
     },
 });
