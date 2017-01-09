@@ -58,15 +58,23 @@ cc.Class({
 
         bird: {
             default: null,
+            visible: false,
+            tooltip: "运行时生成的，当前在画面中的鸟",
+        },
+
+        birdUpSpeed: {
+            default: 0,
+            tooltip: "点击屏幕时，鸟获得的上升速度",
         },
 
         birdSpeed: {
             default: 0,
-            tooltip: "点击屏幕鸟上升距离",
+            visible: false,
+            tooltip: "鸟当前在 y 方向上的速度",
         },
 
         birdGravitationalAcceleration: {
-            default: 250,
+            default: 0,
             tooltip: "鸟下降的重力加速度",
         }
     },
@@ -202,7 +210,7 @@ cc.Class({
      */
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            this.birdSpeed = 200;
+            this.birdSpeed = this.birdUpSpeed;
             console.log("mouse down");
         }, this);
     },

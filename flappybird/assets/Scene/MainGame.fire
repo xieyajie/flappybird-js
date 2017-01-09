@@ -253,8 +253,9 @@
       "__uuid__": "d6cea7ef-7c5b-43be-8e4b-25e7e7cc465a"
     },
     "bird": null,
+    "birdUpSpeed": 350,
     "birdSpeed": 200,
-    "birdGravitationalAcceleration": 250
+    "birdGravitationalAcceleration": 500
   },
   {
     "__type__": "cc.Canvas",
