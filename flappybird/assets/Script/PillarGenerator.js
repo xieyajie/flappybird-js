@@ -82,7 +82,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
         this.setupEventListener();
-        this.setupCollisionListener();
+        // this.setupCollisionListener();
         this.setupBird();
         this.setupPillars();
     },
@@ -219,10 +219,10 @@ cc.Class({
      * 初始化碰撞检测
      */
     setupCollisionListener: function () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDrawBoundingBox = true;
-        manager.enabledDebugDraw = true;
+        // var manager = cc.director.getCollisionManager();
+        // manager.enabled = true;
+        // manager.enabledDrawBoundingBox = true;
+        // manager.enabledDebugDraw = true;
     },
 
     /**
@@ -230,8 +230,8 @@ cc.Class({
      * @param  {Collider} other 产生碰撞的另一个碰撞组件
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
-    onCollisionEnter: function (other, self) {
-        console.log('end');
-    },
+    // onCollisionEnter: function (other, self) {
+    //     console.log('end');
+    // },
 
 });

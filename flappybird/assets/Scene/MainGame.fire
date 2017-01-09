@@ -241,7 +241,7 @@
     },
     "_enabled": true,
     "pillarPrefab": {
-      "__uuid__": "867193ed-2d95-4f4e-80ad-a1b0e52c9c5a"
+      "__uuid__": "427aa116-ff25-4c47-95a2-87c2bbeb0f43"
     },
     "pillarSapce": 100,
     "pillarMinHeight": 60,
@@ -250,7 +250,7 @@
     "pillars": [],
     "lastPillarGenerateMargin": 0,
     "birdPrefab": {
-      "__uuid__": "d6cea7ef-7c5b-43be-8e4b-25e7e7cc465a"
+      "__uuid__": "81372957-9995-4772-8639-99b5880aac4b"
     },
     "bird": null,
     "birdUpSpeed": 350,
