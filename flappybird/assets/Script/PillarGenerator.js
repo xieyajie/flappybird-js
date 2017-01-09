@@ -2,16 +2,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //    default: null,      // The default value will be used only when the component attaching
-        //                           to a node for the first time
-        //    url: cc.Texture2D,  // optional, default is typeof default
-        //    serializable: true, // optional, default is true
-        //    visible: true,      // optional, default is true
-        //    displayName: 'Foo', // optional
-        //    readonly: false,    // optional, default is false
-        // },
-        // ...
         pillarPrefab: {
             default: null,
             type: cc.Prefab,
@@ -76,6 +66,12 @@ cc.Class({
         birdGravitationalAcceleration: {
             default: 0,
             tooltip: "鸟下降的重力加速度",
+        },
+
+        isCollided: {
+            default: false,
+            visible: false,
+            tooltip: "是否发生了碰撞",
         }
     },
 
@@ -89,6 +85,10 @@ cc.Class({
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
+        if (this.isCollided) {
+            return ;
+        }
+
         // 本次更新移动的距离
         let dtSpace = dt * this.pillarMoveSpeed;
 
@@ -239,7 +239,7 @@ cc.Class({
      */
     setupCollisionListener: function () {
         this.node.on('collided', function (event) {
-            console.log('collided');
+            this.getComponent('PillarGenerator').isCollided = true;
         });
     },
 

@@ -255,7 +255,8 @@
     "bird": null,
     "birdUpSpeed": 350,
     "birdSpeed": 200,
-    "birdGravitationalAcceleration": 500
+    "birdGravitationalAcceleration": 500,
+    "isCollided": false
   },
   {
     "__type__": "cc.Canvas",
