@@ -243,7 +243,7 @@
     "pillarPrefab": {
       "__uuid__": "427aa116-ff25-4c47-95a2-87c2bbeb0f43"
     },
-    "pillarSapce": 100,
+    "pillarSapce": 150,
     "pillarMinHeight": 60,
     "pillarMoveSpeed": 200,
     "pillarGenerateMargin": 400,
