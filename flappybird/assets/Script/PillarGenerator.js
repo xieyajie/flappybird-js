@@ -172,6 +172,38 @@ cc.Class({
     },
 
     /**
+     * 重新开始一局新游戏
+     */
+    restartGame: function () {
+        // 移除各个障碍物
+        for (let i = 0; i < this.pillars.length; i++) {
+            let pillarArr = this.pillars[i];
+            let upPillar = pillarArr[0];
+            let downPillar = pillarArr[1];
+            let scoreSpace = pillarArr[2];
+
+            upPillar.removeFromParent();
+            downPillar.removeFromParent();
+            scoreSpace.removeFromParent();
+        }
+        this.pillars = [];
+
+        // 移除鸟
+        this.bird.removeFromParent();
+
+        // 分数
+        this.score = 0;
+        this.scoreLabel.string = this.score.toString();
+
+        // 重新初始化设置
+        this.setupPillars();
+        this.setupBird();
+
+        // 重新开始游戏
+        this.isCollided = false;
+    },
+
+    /**
      * 生成一对新的障碍物并自动加入到场景中
      * @param x 障碍物生成的水平位置
      */
@@ -264,6 +296,8 @@ cc.Class({
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             if (this.isCollided) {
+                this.restartGame();
+
                 return;
             }
 
