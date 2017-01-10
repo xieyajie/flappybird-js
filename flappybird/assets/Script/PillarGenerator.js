@@ -142,12 +142,9 @@ cc.Class({
         // 最大可生成的位置
         let maxX = this.node.width / 2 + tmpPillar.width / 2;
         // 记录下最后一次生成位置的下一个位置
-        let x = 0;
-        for (x = 0; x <= maxX; x+=this.pillarGenerateMargin) {
-            this.generateTwoPillar(x);
-        }
+        this.generateTwoPillar(maxX);
         // 距离上一个生成位置已经间隔了多远
-        this.lastPillarGenerateMargin = maxX - (x - this.pillarGenerateMargin);
+        this.lastPillarGenerateMargin = 0;
     },
 
     /**
