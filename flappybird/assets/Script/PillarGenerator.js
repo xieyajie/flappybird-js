@@ -128,7 +128,11 @@ cc.Class({
         }
 
         //鸟的当前速度
-        this.birdSpeed = this.birdSpeed - this.birdGravitationalAcceleration * dt;
+        let currentBirdSpeed = this.birdSpeed - this.birdGravitationalAcceleration * dt;
+        if (this.birdSpeed > 0 && currentBirdSpeed < 0) {
+            this.bird.rotation = 60;
+        }
+        this.birdSpeed = currentBirdSpeed;
         let birdUpHeight = dt * this.birdSpeed;
         let birdY = this.bird.getPositionY() + birdUpHeight;
         this.bird.setPositionY(birdY);
@@ -230,6 +234,7 @@ cc.Class({
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             this.birdSpeed = this.birdUpSpeed;
+            this.bird.rotation = -30;
             console.log("mouse down");
         }, this);
     },
