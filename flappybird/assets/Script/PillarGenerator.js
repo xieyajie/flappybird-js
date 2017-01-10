@@ -53,18 +53,18 @@ cc.Class({
         },
 
         birdUpSpeed: {
-            default: 0,
+            default: 0.0,
             tooltip: "点击屏幕时，鸟获得的上升速度",
         },
 
         birdSpeed: {
-            default: 0,
+            default: 0.0,
             visible: false,
             tooltip: "鸟当前在 y 方向上的速度",
         },
 
         birdGravitationalAcceleration: {
-            default: 0,
+            default: 0.0,
             tooltip: "鸟下降的重力加速度",
         },
 
@@ -129,11 +129,10 @@ cc.Class({
 
         //鸟的当前速度
         let currentBirdSpeed = this.birdSpeed - this.birdGravitationalAcceleration * dt;
-        if (this.birdSpeed > 0 && currentBirdSpeed < 0) {
-            this.bird.rotation = 60;
-        }
         this.birdSpeed = currentBirdSpeed;
         let birdUpHeight = dt * this.birdSpeed;
+        this.bird.rotation = -20.0 * (currentBirdSpeed / this.birdUpSpeed);
+        console.log(this.bird.rotation);
         let birdY = this.bird.getPositionY() + birdUpHeight;
         this.bird.setPositionY(birdY);
     },
@@ -231,7 +230,7 @@ cc.Class({
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             this.birdSpeed = this.birdUpSpeed;
-            this.bird.rotation = -30;
+            this.bird.rotation = -20;
             console.log("mouse down");
         }, this);
     },
@@ -241,7 +240,7 @@ cc.Class({
      */
     setupCollisionListener: function () {
         this.node.on('collided', function (event) {
-            this.getComponent('PillarGenerator').isCollided = true;
+            // this.getComponent('PillarGenerator').isCollided = true;
         });
     },
 
