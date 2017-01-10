@@ -263,6 +263,10 @@ cc.Class({
      */
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            if (this.isCollided) {
+                return;
+            }
+
             this.birdSpeed = this.birdUpSpeed;
             this.bird.rotation = -20;
         }, this);

@@ -103,13 +103,13 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": -0.2,
-      "y": -0.9
+      "x": 0,
+      "y": 0
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 48.7,
-      "height": 28.6
+      "width": 46,
+      "height": 26
     }
   },
   {
@@ -127,7 +127,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "81372957-9995-4772-8639-99b5880aac4b"
     },
     "fileId": "459faY/q2NB4ZKQ52AwrLRD",
     "sync": false
