@@ -8,8 +8,6 @@ cc.Class({
     onLoad: function () {
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        manager.enabledDrawBoundingBox = true;
-        manager.enabledDebugDraw = true;
     },
 
     // called every frame, uncomment this function to activate update callback
@@ -23,6 +21,14 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter: function (other, self) {
-        this.node.dispatchEvent( new cc.Event.EventCustom('collided', true) );
+        if (other.node.group == "Pillar") {
+            this.node.dispatchEvent( new cc.Event.EventCustom('collided', true) );
+        }
+    },
+
+    onCollisionExit: function (other, self) {
+        if (other.node.group == "ScoreSpace") {
+            this.node.dispatchEvent( new cc.Event.EventCustom('score', true) );
+        }
     },
 });

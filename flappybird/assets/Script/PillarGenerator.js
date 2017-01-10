@@ -8,6 +8,24 @@ cc.Class({
             tooltip: "柱子障碍物的 Prefab",
         },
 
+        scroreSpacePrefab: {
+            default: null,
+            type: cc.Prefab,
+            tooltip: "柱子障碍物中间的空隙 prefab",
+        },
+
+        scoreLabel: {
+            default: null,
+            type: cc.Label,
+            tooltip: "显示分数的 label 组件",
+        },
+
+        score: {
+            default: 0,
+            visible: false,
+            tooltip: "玩家分数",
+        },
+
         pillarSapce: {
             default: 0,
             tooltip: "上下障碍物的中间空隙间距",
@@ -97,9 +115,11 @@ cc.Class({
             let pillarArr = this.pillars[i];
             let upPillar = pillarArr[0];
             let downPillar = pillarArr[1];
+            let scoreSpace = pillarArr[2];
 
             upPillar.x -= dtSpace;
             downPillar.x -= dtSpace;
+            scoreSpace.x -= dtSpace;
         }
 
         // 记录距离上一次生成障碍物间隔了多远了
@@ -118,12 +138,14 @@ cc.Class({
             let pillarArr = this.pillars[i];
             let upPillar = pillarArr[0];
             let downPillar = pillarArr[1];
+            let scoreSpace = pillarArr[2];
 
             let minX = -this.node.width / 2 - upPillar.width / 2;
             if (upPillar.x < minX) {
                 this.pillars.shift();
                 upPillar.removeFromParent();
                 downPillar.removeFromParent();
+                scoreSpace.removeFromParent();
             }
         }
 
@@ -132,7 +154,6 @@ cc.Class({
         this.birdSpeed = currentBirdSpeed;
         let birdUpHeight = dt * this.birdSpeed;
         this.bird.rotation = -20.0 * (currentBirdSpeed / this.birdUpSpeed);
-        console.log(this.bird.rotation);
         let birdY = this.bird.getPositionY() + birdUpHeight;
         this.bird.setPositionY(birdY);
     },
@@ -181,8 +202,21 @@ cc.Class({
         // 设置下边障碍物的位置大小
         let downPillar = this.generateAPillar(x, downY, width, downPillarHeight, 180);
 
+        // 中间空隙中添加一个 scoreSpace 用于计分
+        let scoreSpace = cc.instantiate(this.scroreSpacePrefab);
+        this.node.addChild(scoreSpace);
+        scoreSpace.width = width;
+        scoreSpace.height = upPillarDownY - downPillarUpY;
+        scoreSpace.setPositionX(x);
+        scoreSpace.setPositionY(downPillarUpY + scoreSpace.height / 2);
+        let scoreSpaceCollider = scoreSpace.getComponent(cc.BoxCollider);
+        scoreSpaceCollider.size.width = scoreSpace.width;
+        scoreSpaceCollider.size.height = scoreSpace.height;
+        scoreSpaceCollider.offset.x = 0;
+        scoreSpaceCollider.offset.y = 0;
+
         // 放到障碍物数组中
-        this.pillars.push([upPillar, downPillar]);
+        this.pillars.push([upPillar, downPillar, scoreSpace]);
     },
 
     /**
@@ -231,7 +265,6 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             this.birdSpeed = this.birdUpSpeed;
             this.bird.rotation = -20;
-            console.log("mouse down");
         }, this);
     },
 
@@ -240,8 +273,14 @@ cc.Class({
      */
     setupCollisionListener: function () {
         this.node.on('collided', function (event) {
-            // this.getComponent('PillarGenerator').isCollided = true;
+            this.getComponent('PillarGenerator').isCollided = true;
         });
+        
+        this.node.on('score', function (event) {
+            let script = this.getComponent('PillarGenerator');
+            script.score++;
+            script.scoreLabel.string = script.score.toString();
+        })
     },
 
 });
