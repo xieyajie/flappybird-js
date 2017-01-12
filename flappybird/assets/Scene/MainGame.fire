@@ -547,8 +547,7 @@
     "isCollided": false,
     "startLayer": {
       "__id__": 2
-    },
-    "startLayerBrid": null
+    }
   },
   {
     "__type__": "cc.Label",
