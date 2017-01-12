@@ -97,12 +97,6 @@ cc.Class({
             type: cc.Node,
             tooltip: "开始游戏视图",
         },
-
-        startLayerBrid: {
-            default: null,
-            visible: false,
-            tooltip: "开始游戏视图上的鸟",
-        },
     },
 
     // use this for initialization
@@ -177,13 +171,7 @@ cc.Class({
      * 创建开始游戏视图
      */
     setupStartLayer: function () {
-        this.startLayerBrid = cc.instantiate(this.birdPrefab);
-        this.startLayer.addChild(this.startLayerBrid);
-
-        let x = -200;
-        let y = 0;
-        this.startLayerBrid.setPositionX(x);
-        this.startLayerBrid.setPositionY(y);
+        this.startLayer.removeFromParent();
     },
 
     /**
@@ -333,6 +321,8 @@ cc.Class({
         this.bird.setPositionX(x);
         this.bird.setPositionY(y);
         this.node.addChild(this.bird);
+
+        this.birdSpeed = this.birdUpSpeed;
     },
 
     /**
@@ -342,11 +332,6 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             if (this.startLayer.parent) {
                 this.restartGame();
-
-                return;
-            }
-            else if (this.isCollided) {
-                this.showStartLayer();
 
                 return;
             }
@@ -361,7 +346,9 @@ cc.Class({
      */
     setupCollisionListener: function () {
         this.node.on('collided', function (event) {
-            this.getComponent('PillarGenerator').isCollided = true;
+            let script = this.getComponent('PillarGenerator');
+            script.isCollided = true;
+            script.showStartLayer();
         });
         
         this.node.on('score', function (event) {
