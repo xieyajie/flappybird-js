@@ -90,15 +90,30 @@ cc.Class({
             default: false,
             visible: false,
             tooltip: "是否发生了碰撞",
-        }
+        },
+
+        startLayer: {
+            default: null,
+            type: cc.Node,
+            tooltip: "开始游戏视图",
+        },
+
+        startLayerBrid: {
+            default: null,
+            visible: false,
+            tooltip: "开始游戏视图上的鸟",
+        },
     },
 
     // use this for initialization
     onLoad: function () {
         this.setupEventListener();
         this.setupCollisionListener();
+        this.setupStartLayer();
         this.setupBird();
         this.setupPillars();
+
+        this.showStartLayer();
     },
 
     // called every frame, uncomment this function to activate update callback
@@ -159,6 +174,34 @@ cc.Class({
     },
 
     /**
+     * 创建开始游戏视图
+     */
+    setupStartLayer: function () {
+        this.startLayerBrid = cc.instantiate(this.birdPrefab);
+        this.startLayer.addChild(this.startLayerBrid);
+
+        let x = -200;
+        let y = 0;
+        this.startLayerBrid.setPositionX(x);
+        this.startLayerBrid.setPositionY(y);
+    },
+
+    /**
+     * 切换显示开始游戏视图
+     */
+    showStartLayer: function () {
+        this.isCollided = true;
+
+        this.startLayer.removeFromParent();
+        let root = this.node.parent;
+        root.addChild(this.startLayer);
+        this.startLayer.width = root.width;
+        this.startLayer.height = root.height;
+        this.startLayer.setPositionX(0);
+        this.startLayer.setPositionY(0);
+    },
+
+    /**
      * 生成初始的障碍物
      */
     setupPillars: function () {
@@ -198,6 +241,8 @@ cc.Class({
         // 重新初始化设置
         this.setupPillars();
         this.setupBird();
+
+        this.startLayer.removeFromParent();
 
         // 重新开始游戏
         this.isCollided = false;
@@ -295,8 +340,13 @@ cc.Class({
      */
     setupEventListener: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            if (this.isCollided) {
+            if (this.startLayer.parent) {
                 this.restartGame();
+
+                return;
+            }
+            else if (this.isCollided) {
+                this.showStartLayer();
 
                 return;
             }
