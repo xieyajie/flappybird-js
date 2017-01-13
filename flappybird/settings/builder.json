@@ -13,5 +13,5 @@
   "packageName": "org.cocos2d.helloworld",
   "startScene": "0c300f38-ce23-43d5-8333-5540fb3bb6fe",
   "title": "flappyBird",
-  "webOrientation": "auto"
+  "webOrientation": "landscape"
 }
